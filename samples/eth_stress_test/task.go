@@ -39,9 +39,15 @@ func (t *EthTask) IncrementTryCount() error {
 }
 
 func (t *EthTask) Do(ctx context.Context, client *EthClient, priv string, nonce uint64, queue *tps.Queue, logger tps.Logger, erc721address string) error {
-	// _, rootErr := client.SendTx(ctx, priv, nonce, t.to, t.amount)
 
-	_, rootErr := client.Erc721TransferFrom(ctx, priv, nonce, t.to, t.amount, erc721address, t.tokenId)
+	var rootErr error
+
+	if model == ERC721 {
+		_, rootErr = client.Erc721TransferFrom(ctx, priv, nonce, t.to, t.amount, erc721address, t.tokenId)
+	} else {
+		_, rootErr = client.SendTx(ctx, priv, nonce, t.to, t.amount)
+	}
+
 	if rootErr != nil {
 		if strings.Contains(rootErr.Error(), "Invalid Transaction") {
 			logger.Warn(fmt.Sprintf("nonce error, %s", rootErr.Error()))
