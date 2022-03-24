@@ -13,6 +13,38 @@ type Client interface {
 ```
 The sample codes are in`samples` directory.
 
+## eth系列支持公链币&erc721压测
+
+**操作步骤：**
+
+1. 设置全局变量 `privs `参数，添加100个私钥(去掉0x前缀)
+
+   -  [<u>erc721</u>]() 类型需要设置token合约地址`erc721address`
+   -  [<u>erc721</u>]()类型初始化10万个tokenid，平均分配到100个私钥地址下，每个地址[1000]() tokenid
+
+2. 更改 `model `进行两种类型切换
+
+3.  编译
+
+   ```
+   go build
+   ```
+
+4. 后台启动命令 
+
+   ```
+   nohup ./eth_stress_test > eth_stress_test.log 2>&1 &
+   ```
+
+5. 运行完成后查看压测结果：
+
+   ```
+   grep  'th Block Mind'  eth_stress_test.log
+   ```
+
+   
+
+
 
 # Results
 ## Cosmos
